@@ -1,0 +1,30 @@
+# Welcome to BowDrops!
+# At the top, look for configuration.
+# At the bottom, look for codes.
+
+# What should the plugin's prefix be (use § for colors)?
+Prefix: "§7[§3Bow§eDrops§7]"
+
+# How long (in minutes) should people with bowdrops.earlynotify get notified before a chest drop?
+# This will delay the chest drop by the time specified.
+EarlyNotifyAndDelay: 10
+
+# How long should a chest drop be active for (in hours)?
+# Be aware that a server restart could break this timer.
+# Set to 0 to disable.
+ActiveTime: 3
+
+# Codes
+# Below, type the codes. Make sure rewards match the lines of codes.
+# THIS IS CASE-SENSITIVE!
+Codes:
+  - "ABC"
+  - "BOW"
+
+# Rewards
+# Below, type the rewards. Make sure codes match the lines of rewards.
+# Use MINECRAFT:ITEM for Minecraft items, ORAXEN:ITEM for custom Oraxen items.
+# THIS IS CASE-SENSITIVE!
+Rewards:
+  - "MINECRAFT:DIAMOND"
+  - "ORAXEN:PEACH"

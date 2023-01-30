@@ -1,0 +1,16 @@
+name: BowDrops
+version: '${project.version}'
+main: com.bownet.drops.Main
+api-version: 1.19
+prefix: BowDrops
+depend: [ Oraxen ]
+softdepend: []
+authors: [ BowFun ]
+description: An item drop plugin based around redeemable codes.
+website: bownet.xyz
+commands:
+  claimdrop:
+    description: Claim a drop code.
+  chestdrop:
+    description: Drop a chest at a set of coords.
+    aliases: [ dropchest ]
