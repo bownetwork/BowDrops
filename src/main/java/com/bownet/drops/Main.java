@@ -3,7 +3,6 @@ package com.bownet.drops;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -61,6 +60,4 @@ public final class Main extends JavaPlugin implements Listener {
         } catch (NullPointerException exception) {
         }
     }
-
-
 }
