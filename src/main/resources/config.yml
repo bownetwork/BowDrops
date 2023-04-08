@@ -2,8 +2,8 @@
 # At the top, look for configuration.
 # At the bottom, look for codes.
 
-# What should the plugin's prefix be (use § for colors)?
-Prefix: "§7[§3Bow§eDrops§7]"
+# What should the plugin's prefix be?
+Prefix: "&7[&3Bow&eDrops&7]"
 
 # How long (in minutes) should people with bowdrops.earlynotify get notified before a chest drop?
 # This will delay the chest drop by the time specified.

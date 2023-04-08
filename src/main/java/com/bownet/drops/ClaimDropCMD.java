@@ -22,7 +22,8 @@ public class ClaimDropCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            String prefix = main.getConfig().getString("Prefix");
+            String startprefix = main.getConfig().getString("Prefix");
+            String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
             if (player.hasPermission("bowdrops.claimdrop")) {
                 if (args.length == 1) {
                     String codeInUse = args[0];

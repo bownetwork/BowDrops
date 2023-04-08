@@ -20,6 +20,7 @@ public final class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
         getCommand("chestdrop").setExecutor(new ChestDropCMD(this));
         getCommand("claimdrop").setExecutor(new ClaimDropCMD(this));
+        getCommand("forceclaim").setExecutor(new ForceClaimCMD(this));
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         System.out.println("BowDrops has been loaded.");
@@ -41,7 +42,8 @@ public final class Main extends JavaPlugin implements Listener {
                 metaIdentifier.setDisplayName(ChatColor.DARK_AQUA + "BowDrops Identifier");
                 identifierCheck.setItemMeta(metaIdentifier);
                 if (identifier.isSimilar(identifierCheck)) {
-                    String prefix = getConfig().getString("Prefix");
+                    String startprefix = getConfig().getString("Prefix");
+                    String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
                     e.setCancelled(true);
                     ItemStack itemToGive = chest.getInventory().getItem(13);
                     e.getPlayer().getInventory().addItem(itemToGive);

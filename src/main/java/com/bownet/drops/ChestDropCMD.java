@@ -25,7 +25,8 @@ public class ChestDropCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            String prefix = main.getConfig().getString("Prefix");
+            String startprefix = main.getConfig().getString("Prefix");
+            String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
             if (player.hasPermission("bowdrops.chestdrop")) {
                 if (args.length == 3) {
                     String codeInUse = args[0];
@@ -159,7 +160,7 @@ public class ChestDropCMD implements CommandExecutor {
                     }
                 } else {
                     player.sendMessage(prefix + " " + ChatColor.DARK_AQUA + "Chest Drop Usage:");
-                    player.sendMessage(ChatColor.AQUA + "/chestdrop (drop code): Drop a chest containing a reward item.");
+                    player.sendMessage(ChatColor.AQUA + "/chestdrop (drop code) (x) (z): Drop a chest containing a reward item.");
                 }
             } else {
                 player.sendMessage(prefix + " " + ChatColor.RED + "You don't have permission to run this command!");
