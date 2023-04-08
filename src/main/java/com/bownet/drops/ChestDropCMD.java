@@ -5,6 +5,7 @@ import io.th0rgal.oraxen.items.ItemBuilder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
+import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -58,17 +59,28 @@ public class ChestDropCMD implements CommandExecutor {
                                     identifierMeta.setDisplayName(ChatColor.DARK_AQUA + "BowDrops Identifier");
                                     identifierItem.setItemMeta(identifierMeta);
                                     chest.getInventory().setItem(0, identifierItem);
-                                    ArmorStand hologram = (ArmorStand) player.getWorld().spawn(new Location(player.getWorld(), xcoord, ycoord, zcoord), ArmorStand.class);
-                                    hologram.setInvisible(true);
-                                    hologram.setGravity(false);
-                                    hologram.setInvulnerable(true);
-                                    hologram.setCustomNameVisible(true);
-                                    hologram.setCustomName(ChatColor.GOLD + "Chest Drop, open for a reward!");
-                                    Firework firework = player.getWorld().spawn(new Location(player.getWorld(), xcoord, ycoord+1, zcoord), Firework.class);
-                                    FireworkMeta meta = (FireworkMeta) firework.getFireworkMeta();
-                                    meta.addEffect(FireworkEffect.builder().withColor(Color.AQUA).withColor(Color.YELLOW).with(FireworkEffect.Type.BALL_LARGE).build());
-                                    meta.setPower(2);
-                                    firework.setFireworkMeta(meta);
+                                    if (main.getConfig().getBoolean("DroppedHolo")) {
+                                        ArmorStand hologram = (ArmorStand) player.getWorld().spawn(new Location(player.getWorld(), xcoord, ycoord, zcoord), ArmorStand.class);
+                                        hologram.setInvisible(true);
+                                        hologram.setGravity(false);
+                                        hologram.setInvulnerable(true);
+                                        hologram.setCustomNameVisible(true);
+                                        hologram.setCustomName(ChatColor.GOLD + "Chest Drop, open for a reward!");
+                                    } else if (!main.getConfig().getBoolean("DroppedHolo")) {
+                                        Block signLocation = player.getWorld().getBlockAt(new Location(player.getWorld(), xcoord, ycoord+1, zcoord));
+                                        signLocation.setType(Material.OAK_SIGN);
+                                        Sign sign = (Sign) signLocation;
+                                        sign.setLine(0, "Chest Drop");
+                                        sign.setLine(1, "Open for a prize!");
+                                        sign.setColor(DyeColor.CYAN);
+                                    }
+                                    if (main.getConfig().getBoolean("DroppedFirework")) {
+                                        Firework firework = player.getWorld().spawn(new Location(player.getWorld(), xcoord, ycoord + 1, zcoord), Firework.class);
+                                        FireworkMeta meta = (FireworkMeta) firework.getFireworkMeta();
+                                        meta.addEffect(FireworkEffect.builder().withColor(Color.AQUA).withColor(Color.YELLOW).with(FireworkEffect.Type.BALL_LARGE).build());
+                                        meta.setPower(2);
+                                        firework.setFireworkMeta(meta);
+                                    }
                                     Bukkit.broadcastMessage(prefix + " " + ChatColor.DARK_AQUA + "A chest has dropped! " + ChatColor.GREEN + "X: " + xcoord + ", Z: " + zcoord);
                                     int activeTime = main.getConfig().getInt("ActiveTime");
                                     int activeTimeTicks = activeTime * 72000;

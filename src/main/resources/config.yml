@@ -2,17 +2,27 @@
 # At the top, look for configuration.
 # At the bottom, look for codes.
 
-# What should the plugin's prefix be?
+# What should the plugin's message prefix be?
 Prefix: "&7[&3Bow&eDrops&7]"
 
 # How long (in minutes) should people with bowdrops.earlynotify get notified before a chest drop?
 # This will delay the chest drop by the time specified.
+# Be aware that a server restart will break the timer, causing the chest to not drop.
+# Set to 0 to disable.
 EarlyNotifyAndDelay: 10
 
 # How long should a chest drop be active for (in hours)?
-# Be aware that a server restart could break this timer.
+# Be aware that a server restart will break this timer, causing the chest to not expire.
 # Set to 0 to disable.
 ActiveTime: 3
+
+# Should a dropped chest have a hologram?
+# If this is false, it will be a sign instead.
+# Be aware that this being false allows players to "fake" a chest drop.
+UseHolo: true
+
+# Should a chest launch a firework when it drops?
+DroppedFirework: true
 
 # Codes
 # Below, type the codes. Make sure rewards match the lines of codes.
@@ -24,7 +34,7 @@ Codes:
 # Rewards
 # Below, type the rewards. Make sure codes match the lines of rewards.
 # Use MINECRAFT:ITEM for Minecraft items, ORAXEN:ITEM for custom Oraxen items.
-# THIS IS CASE-SENSITIVE!
+# USE CAPITAL LETTERS FOR THIS!
 Rewards:
   - "MINECRAFT:DIAMOND"
   - "ORAXEN:PEACH"
