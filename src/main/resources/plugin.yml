@@ -1,5 +1,5 @@
 name: BowDrops
-version: '${project.version}'
+version: '${version}'
 main: com.bownet.drops.Main
 api-version: 1.19
 prefix: BowDrops
