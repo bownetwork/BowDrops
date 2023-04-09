@@ -1,6 +1,7 @@
 package com.bownet.drops;
 
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
@@ -11,6 +12,11 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.Location;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 
 public class ChestDropCMD implements CommandExecutor {
 
