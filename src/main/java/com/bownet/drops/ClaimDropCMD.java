@@ -27,40 +27,13 @@ public class ClaimDropCMD implements CommandExecutor {
             if (player.hasPermission("bowdrops.claimdrop")) {
                 if (args.length == 1) {
                     String codeInUse = args[0];
-                    List<String> codes = main.getConfig().getStringList("Codes");
-                    List<String> rewards = main.getConfig().getStringList("Rewards");
-                    if (codes.contains(codeInUse)) {
-                        int codeIndex = codes.indexOf(codeInUse);
-                        String rewardItem = rewards.get(codeIndex);
-                        if (rewardItem.contains("ORAXEN:")) {
-                            String nameOxnItem = rewardItem.replace("ORAXEN:", "");
-                            String nameOxnItem2 = nameOxnItem.toLowerCase();
-                            ItemBuilder OxnUnBuiltItem = OraxenItems.getItemById(nameOxnItem2);
-                            if (OxnUnBuiltItem == null) {
-                                player.sendMessage(prefix + " " + ChatColor.RED + "There was an error, as the item couldn't be found.");
-                                System.out.println("BowDrops: The drop item couldn't be found!");
-                            } else {
-                                ItemStack OxnBuiltItem = OxnUnBuiltItem.build();
-                                player.getInventory().addItem(OxnBuiltItem);
-                                player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
-                            }
-                        } else if (rewardItem.contains("MINECRAFT:")) {
-                            String nameMCItem = rewardItem.replace("MINECRAFT:", "");
-                            Material MCItemName = Material.getMaterial(nameMCItem);
-                            if (MCItemName == null) {
-                                player.sendMessage(prefix + " " + ChatColor.RED + "There was an error, as the item couldn't be found.");
-                                System.out.println("BowDrops: The drop item couldn't be found!");
-                            } else {
-                                ItemStack MCItem = new ItemStack(MCItemName, 1);
-                                player.getInventory().addItem(MCItem);
-                                player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
-                            }
-                        } else {
-                            player.sendMessage(prefix + " " + ChatColor.RED + "There was an error, as the item couldn't be found.");
-                            System.out.println("BowDrops: The drop item couldn't be found!");
-                        }
+                    ItemStack rewardItem = main.CodeToReward(codeInUse);
+                    if (!(rewardItem == null)) {
+                        player.getInventory().addItem(rewardItem);
+                        player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
                     } else {
-                        player.sendMessage(prefix + " " + ChatColor.RED + "This drop code could not be found.");
+                        player.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
+                        System.out.println("BowDrops: The drop item couldn't be found.");
                     }
                 } else {
                     player.sendMessage(prefix + " " + ChatColor.DARK_AQUA + "Claim Drop Usage:");

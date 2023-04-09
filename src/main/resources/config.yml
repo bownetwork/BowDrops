@@ -1,6 +1,5 @@
 # Welcome to BowDrops!
-# At the top, look for configuration.
-# At the bottom, look for codes.
+# Written by BowFun
 
 # What should the plugin's message prefix be?
 Prefix: "&7[&3Bow&eDrops&7]"
@@ -23,18 +22,3 @@ UseHolo: true
 
 # Should a chest launch a firework when it drops?
 DroppedFirework: true
-
-# Codes
-# Below, type the codes. Make sure rewards match the lines of codes.
-# THIS IS CASE-SENSITIVE!
-Codes:
-  - "ABC"
-  - "BOW"
-
-# Rewards
-# Below, type the rewards. Make sure codes match the lines of rewards.
-# Use MINECRAFT:ITEM for Minecraft items, ORAXEN:ITEM for custom Oraxen items.
-# USE CAPITAL LETTERS FOR THIS!
-Rewards:
-  - "MINECRAFT:DIAMOND"
-  - "ORAXEN:PEACH"
