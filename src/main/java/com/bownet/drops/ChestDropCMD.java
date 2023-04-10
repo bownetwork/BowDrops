@@ -3,6 +3,7 @@ package com.bownet.drops;
 import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -42,7 +43,9 @@ public class ChestDropCMD implements CommandExecutor {
                     if (!(rewardItem == null)) {
                         int timeToWait = main.getConfig().getInt("EarlyNotifyAndDelay");
                         player.sendMessage(prefix + " " + ChatColor.GREEN + "The chest drop will be dropped in " + timeToWait + " minutes.");
-                        Bukkit.broadcast(prefix + " " + ChatColor.GOLD + "A chest drop will be happening in " + timeToWait + " minutes.", "bowdrops.earlynotify");
+                        if (timeToWait != 0) {
+                            Bukkit.broadcast(prefix + " " + ChatColor.GOLD + "A chest drop will be happening in " + timeToWait + " minutes.", "bowdrops.earlynotify");
+                        }
                         int timeToWaitTicks = timeToWait * 1200;
                         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
                             Block block = player.getWorld().getBlockAt(xcoord, ycoord, zcoord);
@@ -84,12 +87,14 @@ public class ChestDropCMD implements CommandExecutor {
                             } else {
                                 player.sendMessage(prefix + " " + ChatColor.AQUA + "This drop will expire in " + ChatColor.DARK_GREEN + activeTime + ChatColor.AQUA + " hours.");
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-                                    chest.getInventory().clear();
-                                    chest.setType(Material.AIR);
-                                    for (Entity entity : chest.getLocation().getChunk().getEntities()) {
-                                        if (entity.getLocation().distance(chest.getLocation()) <= 1.5) {
-                                            if (entity.getType() == EntityType.ARMOR_STAND) {
-                                                entity.remove();
+                                    if (player.getWorld().getBlockAt(xcoord, ycoord, zcoord).getType() == Material.CHEST) {
+                                        chest.getInventory().clear();
+                                        chest.setType(Material.AIR);
+                                        for (Entity entity : chest.getLocation().getChunk().getEntities()) {
+                                            if (entity.getLocation().distance(chest.getLocation()) <= 1.5) {
+                                                if (entity.getType() == EntityType.ARMOR_STAND) {
+                                                    entity.remove();
+                                                }
                                             }
                                         }
                                     }
