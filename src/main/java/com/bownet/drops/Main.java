@@ -77,19 +77,24 @@ public final class Main extends JavaPlugin implements Listener {
                 if (identifier.isSimilar(identifierCheck)) {
                     String startprefix = getConfig().getString("Prefix");
                     String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
-                    e.setCancelled(true);
-                    ItemStack itemToGive = chest.getInventory().getItem(13);
-                    e.getPlayer().getInventory().addItem(itemToGive);
-                    chest.getInventory().clear();
-                    e.getClickedBlock().setType(Material.AIR);
-                    for (Entity entity : chest.getLocation().getChunk().getEntities()) {
-                        if (entity.getLocation().distance(chest.getLocation()) <= 1.5) {
-                            if (entity.getType() == EntityType.ARMOR_STAND) {
-                                entity.remove();
+                    if (!invFull(e.getPlayer())) {
+                        e.setCancelled(true);
+                        ItemStack itemToGive = chest.getInventory().getItem(13);
+                        e.getPlayer().getInventory().addItem(itemToGive);
+                        chest.getInventory().clear();
+                        e.getClickedBlock().setType(Material.AIR);
+                        for (Entity entity : chest.getLocation().getChunk().getEntities()) {
+                            if (entity.getLocation().distance(chest.getLocation()) <= 1.5) {
+                                if (entity.getType() == EntityType.ARMOR_STAND) {
+                                    entity.remove();
+                                }
                             }
                         }
+                        e.getPlayer().sendMessage(prefix + " " + ChatColor.GREEN + "You successfully claimed the drop!");
+                    } else {
+                        e.getPlayer().sendMessage(prefix + " " + ChatColor.RED + "Your inventory is full! Free up some space to claim the drop.");
+                        e.setCancelled(true);
                     }
-                    e.getPlayer().sendMessage(prefix + " " + ChatColor.GREEN + "You successfully claimed the drop!");
                 }
             }
         } catch (NullPointerException exception) {}
@@ -166,5 +171,9 @@ public final class Main extends JavaPlugin implements Listener {
         } else {
             return false;
         }
+    }
+
+    public boolean invFull(Player p) {
+        return p.getInventory().firstEmpty() == -1;
     }
 }

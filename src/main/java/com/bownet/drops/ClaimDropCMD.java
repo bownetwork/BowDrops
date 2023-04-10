@@ -26,9 +26,13 @@ public class ClaimDropCMD implements CommandExecutor {
                     if (!(main.isClaimed(player, codeInUse))) {
                         ItemStack rewardItem = main.CodeToReward(codeInUse);
                         if (!(rewardItem == null)) {
-                            player.getInventory().addItem(rewardItem);
-                            main.addToClaimed(player, codeInUse);
-                            player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                            if (!main.invFull(player)) {
+                                player.getInventory().addItem(rewardItem);
+                                main.addToClaimed(player, codeInUse);
+                                player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                            } else {
+                                player.sendMessage(prefix + " " + ChatColor.RED + "The drop couldn't be claimed, as your inventory is full.");
+                            }
                         } else {
                             player.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
                             System.out.println("BowDrops: The drop item couldn't be found.");
