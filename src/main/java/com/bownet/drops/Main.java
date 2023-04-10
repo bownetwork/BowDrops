@@ -6,9 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Container;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,10 +20,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public final class Main extends JavaPlugin implements Listener {
 
     YamlConfiguration modifycodes;
+    YamlConfiguration claimedCodes;
 
     @Override
     public void onEnable() {
@@ -29,6 +33,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("chestdrop").setExecutor(new ChestDropCMD(this));
         getCommand("claimdrop").setExecutor(new ClaimDropCMD(this));
         getCommand("forceclaim").setExecutor(new ForceClaimCMD(this));
+        getCommand("bowdrops").setExecutor(new AdminCMD(this));
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         File codes = new File(getDataFolder(), "codes.yml");
@@ -40,7 +45,17 @@ public final class Main extends JavaPlugin implements Listener {
                 throw new RuntimeException(e);
             }
         }
-        YamlConfiguration modifycodes = YamlConfiguration.loadConfiguration(codes);
+        modifycodes = YamlConfiguration.loadConfiguration(codes);
+        File claimed = new File(getDataFolder(), "claimedCodes.yml");
+        if (!claimed.exists()) {
+            try {
+                claimed.createNewFile();
+            } catch (IOException e) {
+                System.out.println("BowDrops: Failed to load the claimed codes file!");
+                throw new RuntimeException(e);
+            }
+        }
+        claimedCodes = YamlConfiguration.loadConfiguration(claimed);
         System.out.println("BowDrops has been loaded.");
     }
 
@@ -107,6 +122,49 @@ public final class Main extends JavaPlugin implements Listener {
             }
         } else {
             return null;
+        }
+    }
+
+    public void ReloadPlugin(Player player) {
+        String startprefix = getConfig().getString("Prefix");
+        String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
+        player.sendMessage(prefix + " " + ChatColor.GREEN + "Reloading...");
+        try {
+            getConfig().load(getDataFolder() + "/config.yml");
+            modifycodes.load(getDataFolder() + "/codes.yml");
+            claimedCodes.load(getDataFolder() + "/claimedCodes.yml");
+        } catch (InvalidConfigurationException | IOException e) {
+            player.sendMessage(prefix + " " + ChatColor.RED + "Error while reloading!");
+            System.out.println("BowDrops: Error while reloading!");
+            e.printStackTrace();
+        }
+            player.sendMessage(prefix + " " + ChatColor.GREEN + "Reloaded successfully!");
+    }
+
+    public void addToClaimed(Player player, String dropCode) {
+        String startprefix = getConfig().getString("Prefix");
+        String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
+        String playerUUID = player.getUniqueId().toString();
+        List<String> claimedCodeUsers = claimedCodes.getStringList(dropCode);
+        claimedCodeUsers.add(playerUUID);
+        claimedCodes.set(dropCode, claimedCodeUsers);
+        try {
+            claimedCodes.save(getDataFolder() + "/claimedCodes.yml");
+        } catch (IOException e) {
+            System.out.println("BowDrops: Error while adding " + player + " to claimed list for " + dropCode + ".");
+            e.printStackTrace();
+        }
+    }
+
+    public Boolean isClaimed(Player player, String dropCode) {
+        String startprefix = getConfig().getString("Prefix");
+        String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
+        String playerUUID = player.getUniqueId().toString();
+        List<String> claimedCodeUsers = claimedCodes.getStringList(dropCode);
+        if (claimedCodeUsers.contains(playerUUID)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

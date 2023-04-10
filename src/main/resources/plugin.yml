@@ -16,3 +16,5 @@ commands:
     aliases: [ dropchest ]
   forceclaim:
     description: Force a user to claim a drop code.
+  bowdrops:
+    description: Admin commands.

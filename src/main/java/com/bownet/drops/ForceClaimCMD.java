@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ForceClaimCMD implements CommandExecutor {
     private Main main;
@@ -21,10 +22,20 @@ public class ForceClaimCMD implements CommandExecutor {
             String prefix = ChatColor.translateAlternateColorCodes('&', startprefix);
             if (player.hasPermission("bowdrops.admin")) {
                 if (args.length == 2) {
-                    if (Bukkit.getServer().getPlayer(args[0]).isOnline()) {
-                        Player claimingPlayer = Bukkit.getServer().getPlayer(args[0]);
+                    Player claimingPlayer = Bukkit.getServer().getPlayer(args[0]);
+                    if (claimingPlayer.isOnline()) {
                         claimingPlayer.sendMessage(prefix + " " + ChatColor.GREEN + "An admin forced you to claim a drop code.");
-                        claimingPlayer.performCommand("claimdrop " + args[1]);
+                        claimingPlayer.sendMessage(prefix + " " + ChatColor.GOLD + "This will not count towards your redemptions of this code.");
+                        String codeInUse = args[1];
+                        ItemStack rewardItem = main.CodeToReward(codeInUse);
+                        if (!(rewardItem == null)) {
+                            claimingPlayer.getInventory().addItem(rewardItem);
+                            claimingPlayer.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                        } else {
+                            player.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
+                            claimingPlayer.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
+                            System.out.println("BowDrops: The drop item couldn't be found.");
+                        }
                     } else {
                         player.sendMessage(prefix + " " + ChatColor.RED + "This player isn't online.");
                     }
@@ -32,6 +43,8 @@ public class ForceClaimCMD implements CommandExecutor {
                     player.sendMessage(prefix + " " + ChatColor.DARK_AQUA + "Force Claim Help");
                     player.sendMessage(ChatColor.AQUA + "/forceclaim (player) (code): Force a player to claim a drop with the code provided.");
                 }
+            } else {
+                player.sendMessage(prefix + " " + ChatColor.RED + "You don't have permission to run this command!");
             }
         }
         return false;

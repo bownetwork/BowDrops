@@ -23,13 +23,18 @@ public class ClaimDropCMD implements CommandExecutor {
             if (player.hasPermission("bowdrops.claimdrop")) {
                 if (args.length == 1) {
                     String codeInUse = args[0];
-                    ItemStack rewardItem = main.CodeToReward(codeInUse);
-                    if (!(rewardItem == null)) {
-                        player.getInventory().addItem(rewardItem);
-                        player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                    if (!(main.isClaimed(player, codeInUse))) {
+                        ItemStack rewardItem = main.CodeToReward(codeInUse);
+                        if (!(rewardItem == null)) {
+                            player.getInventory().addItem(rewardItem);
+                            main.addToClaimed(player, codeInUse);
+                            player.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                        } else {
+                            player.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
+                            System.out.println("BowDrops: The drop item couldn't be found.");
+                        }
                     } else {
-                        player.sendMessage(prefix + " " + ChatColor.RED + "The reward couldn't be found.");
-                        System.out.println("BowDrops: The drop item couldn't be found.");
+                        player.sendMessage(prefix + " " + ChatColor.RED + "You have already redeemed this code.");
                     }
                 } else {
                     player.sendMessage(prefix + " " + ChatColor.DARK_AQUA + "Claim Drop Usage:");
