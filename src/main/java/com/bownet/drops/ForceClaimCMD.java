@@ -24,7 +24,7 @@ public class ForceClaimCMD implements CommandExecutor {
                 if (args.length == 2) {
                     Player claimingPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (claimingPlayer != null) {
-                        claimingPlayer.sendMessage(prefix + " " + ChatColor.GREEN + "An admin forced you to claim a drop code.");
+                        claimingPlayer.sendMessage(prefix + " " + ChatColor.GREEN + "An admin sent you a drop!");
                         claimingPlayer.sendMessage(prefix + " " + ChatColor.GOLD + "This will not count towards your redemptions of this code.");
                         String codeInUse = args[1];
                         ItemStack rewardItem = main.CodeToReward(codeInUse);
@@ -32,6 +32,7 @@ public class ForceClaimCMD implements CommandExecutor {
                             if (!main.invFull(claimingPlayer)) {
                                 claimingPlayer.getInventory().addItem(rewardItem);
                                 claimingPlayer.sendMessage(prefix + " " + ChatColor.GREEN + "Item has been delivered to your inventory successfully.");
+                                player.sendMessage(prefix + " " + ChatColor.GREEN + "Item delivered successfully.");
                             } else {
                                 claimingPlayer.sendMessage(prefix + " " + ChatColor.RED + "The drop couldn't be claimed, as your inventory is full.");
                                 player.sendMessage(prefix + " " + ChatColor.RED + "That player's inventory is full!");
