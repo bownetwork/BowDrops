@@ -57,21 +57,12 @@ public class ChestDropCMD implements CommandExecutor {
                             identifierMeta.setDisplayName(ChatColor.DARK_AQUA + "BowDrops Identifier");
                             identifierItem.setItemMeta(identifierMeta);
                             chest.getInventory().setItem(0, identifierItem);
-                            if (main.getConfig().getBoolean("UseHolo")) {
-                                ArmorStand hologram = (ArmorStand) player.getWorld().spawn(new Location(player.getWorld(), xcoord + 0.5F, ycoord, zcoord + 0.5F), ArmorStand.class);
-                                hologram.setInvisible(true);
-                                hologram.setGravity(false);
-                                hologram.setInvulnerable(true);
-                                hologram.setCustomNameVisible(true);
-                                hologram.setCustomName(ChatColor.GOLD + "Chest Drop, open for a reward!");
-                            } else {
-                                Block signLocation = player.getWorld().getBlockAt(new Location(player.getWorld(), xcoord, ycoord + 1, zcoord));
-                                signLocation.setType(Material.OAK_SIGN);
-                                Sign sign = (Sign) signLocation;
-                                sign.setLine(0, "Chest Drop");
-                                sign.setLine(1, "Open for a prize!");
-                                sign.setColor(DyeColor.CYAN);
-                            }
+                            ArmorStand hologram = (ArmorStand) player.getWorld().spawn(new Location(player.getWorld(), xcoord + 0.5F, ycoord, zcoord + 0.5F), ArmorStand.class);
+                            hologram.setInvisible(true);
+                            hologram.setGravity(false);
+                            hologram.setInvulnerable(true);
+                            hologram.setCustomNameVisible(true);
+                            hologram.setCustomName(ChatColor.GOLD + "Chest Drop, open for a reward!");
                             if (main.getConfig().getBoolean("DroppedFirework")) {
                                 Firework firework = player.getWorld().spawn(new Location(player.getWorld(), xcoord, ycoord + 1, zcoord), Firework.class);
                                 FireworkMeta meta = (FireworkMeta) firework.getFireworkMeta();

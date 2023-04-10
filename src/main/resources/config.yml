@@ -15,10 +15,5 @@ EarlyNotifyAndDelay: 10
 # Set to 0 to disable.
 ActiveTime: 3
 
-# Should a dropped chest have a hologram?
-# If this is false, it will be a sign instead.
-# Be aware that this being false allows players to "fake" a chest drop.
-UseHolo: true
-
 # Should a chest launch a firework when it drops?
 DroppedFirework: true
