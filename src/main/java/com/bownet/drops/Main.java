@@ -38,17 +38,17 @@ public final class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         File codes = new File(getDataFolder(), "codes.yml");
         if (!codes.exists()) {
-            try {
-                codes.createNewFile();
-            } catch (IOException e) {
-                System.out.println("BowDrops: Failed to load the codes file!");
-                throw new RuntimeException(e);
-            }
+            saveResource("codes.yml", false);
         }
         modifycodes = YamlConfiguration.loadConfiguration(codes);
         File claimed = new File(getDataFolder(), "claimedCodes.yml");
         if (!claimed.exists()) {
-            saveResource("codes.yml", false);
+            try {
+                claimed.createNewFile();
+            } catch (IOException e) {
+                System.out.println("BowDrops: Failed to create the claimed codes file!");
+                e.printStackTrace();
+            }
         }
         claimedCodes = YamlConfiguration.loadConfiguration(claimed);
         System.out.println("BowDrops has been loaded.");
