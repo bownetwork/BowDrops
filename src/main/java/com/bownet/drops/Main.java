@@ -1,5 +1,6 @@
 package com.bownet.drops;
 
+import com.google.common.io.ByteStreams;
 import io.th0rgal.oraxen.api.OraxenItems;
 import io.th0rgal.oraxen.items.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -18,8 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public final class Main extends JavaPlugin implements Listener {
@@ -48,12 +48,7 @@ public final class Main extends JavaPlugin implements Listener {
         modifycodes = YamlConfiguration.loadConfiguration(codes);
         File claimed = new File(getDataFolder(), "claimedCodes.yml");
         if (!claimed.exists()) {
-            try {
-                claimed.createNewFile();
-            } catch (IOException e) {
-                System.out.println("BowDrops: Failed to load the claimed codes file!");
-                throw new RuntimeException(e);
-            }
+            saveResource("codes.yml", false);
         }
         claimedCodes = YamlConfiguration.loadConfiguration(claimed);
         System.out.println("BowDrops has been loaded.");

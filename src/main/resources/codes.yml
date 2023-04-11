@@ -1,0 +1,7 @@
+# Add codes using the example formats provided below.
+# Example: "CODE": "MINECRAFT:ITEM"
+# You can also use Oraxen items. Example: "CODE": "ORAXEN:ITEM_ID"
+# Check the wiki for more help: https://plugins.bownet.xyz/bowdrops/information
+
+"ABC": "MINECRAFT:DIAMOND"
+"BOW": "ORAXEN:CROWN"
