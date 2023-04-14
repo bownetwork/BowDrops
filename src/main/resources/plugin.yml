@@ -3,8 +3,8 @@ version: '${version}'
 main: com.bownet.drops.Main
 api-version: 1.19
 prefix: BowDrops
-depend: [ Oraxen ]
-softdepend: []
+depend: []
+softdepend: [ Oraxen ]
 authors: [ BowFun ]
 description: An item drop plugin based around redeemable codes.
 website: bownet.xyz

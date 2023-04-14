@@ -1,6 +1,5 @@
 package com.bownet.drops;
 
-import com.google.common.io.ByteStreams;
 import io.th0rgal.oraxen.api.OraxenItems;
 import io.th0rgal.oraxen.items.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -24,8 +23,9 @@ import java.util.List;
 
 public final class Main extends JavaPlugin implements Listener {
 
-    YamlConfiguration modifycodes;
-    YamlConfiguration claimedCodes;
+    private YamlConfiguration modifycodes;
+    private YamlConfiguration claimedCodes;
+    Boolean OraxenEnabled = false;
 
     @Override
     public void onEnable() {
@@ -43,14 +43,13 @@ public final class Main extends JavaPlugin implements Listener {
         modifycodes = YamlConfiguration.loadConfiguration(codes);
         File claimed = new File(getDataFolder(), "claimedCodes.yml");
         if (!claimed.exists()) {
-            try {
-                claimed.createNewFile();
-            } catch (IOException e) {
-                System.out.println("BowDrops: Failed to create the claimed codes file!");
-                e.printStackTrace();
-            }
+                saveResource("claimedCodes.yml", false);
         }
         claimedCodes = YamlConfiguration.loadConfiguration(claimed);
+        if (getServer().getPluginManager().getPlugin("Oraxen") != null) {
+            System.out.println("BowDrops: Found Oraxen, enabling!");
+            OraxenEnabled = true;
+        }
         System.out.println("BowDrops has been loaded.");
     }
 
@@ -97,14 +96,21 @@ public final class Main extends JavaPlugin implements Listener {
 
     public ItemStack CodeToReward(String code) {
         if (modifycodes.contains(code)) {
-            String reward = modifycodes.getString(code);
+            List<String> rewardData = modifycodes.getStringList(code);
+            String reward = rewardData.get(rewardData.indexOf("Reward"));
+            int amount = Integer.parseInt(rewardData.get(rewardData.indexOf("Amount")));
             if (reward.contains("ORAXEN:")) {
-                String nameOxnItem = reward.replace("ORAXEN:", "");
-                String nameOxnItem2 = nameOxnItem.toLowerCase();
-                ItemBuilder OxnUnBuiltItem = OraxenItems.getItemById(nameOxnItem2);
-                if (OxnUnBuiltItem != null) {
-                    ItemStack OxnBuiltItem = OxnUnBuiltItem.build();
-                    return OxnBuiltItem;
+                if (OraxenEnabled) {
+                    String nameOxnItem = reward.replace("ORAXEN:", "");
+                    String nameOxnItem2 = nameOxnItem.toLowerCase();
+                    ItemBuilder OxnUnBuiltItem = OraxenItems.getItemById(nameOxnItem2);
+                    if (OxnUnBuiltItem != null) {
+                        OxnUnBuiltItem.setAmount(amount);
+                        ItemStack OxnBuiltItem = OxnUnBuiltItem.build();
+                        return OxnBuiltItem;
+                    } else {
+                        return null;
+                    }
                 } else {
                     return null;
                 }
@@ -112,7 +118,7 @@ public final class Main extends JavaPlugin implements Listener {
                 String nameMCItem = reward.replace("MINECRAFT:", "");
                 Material MCItemName = Material.getMaterial(nameMCItem);
                 if (MCItemName != null) {
-                    ItemStack MCItem = new ItemStack(MCItemName, 1);
+                    ItemStack MCItem = new ItemStack(MCItemName, amount);
                     return MCItem;
                 } else {
                     return null;
